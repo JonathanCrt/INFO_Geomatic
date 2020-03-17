@@ -6,10 +6,12 @@
       <option name="myIgnoreVendorSpecificProperties" value="false" />
       <option name="myCustomPropertiesList">
         <value>
-          <list size="3">
+          <list size="5">
             <item index="0" class="java.lang.String" itemvalue="background­image" />
             <item index="1" class="java.lang.String" itemvalue="z­index" />
             <item index="2" class="java.lang.String" itemvalue="background­color" />
+            <item index="3" class="java.lang.String" itemvalue="box­shadow" />
+            <item index="4" class="java.lang.String" itemvalue="border­radius" />
           </list>
         </value>
       </option>

@@ -7,11 +7,18 @@
     <script src="https://unpkg.com/leaflet@1.6.0/dist/leaflet.js"></script>
 
     <script src="js/Control/FullScreen.js"></script>
-    <script src="css/FullScreen.css"></script>
-    <script src="css/resize_screen.css"></script>
+    <script src="css/FullScreen.css" type="text/css"></script>
+    <script src="css/resize_screen.css" type="text/css"></script>
 
     <script src="js/Control/OSMGeocoder.js"></script>
-    <script src="css/OSMGeocoder.css"></script>
+    <script src="css/OSMGeocoder.css" type="text/css"></script>
+
+    <link href='https://leaflet.github.io/Leaflet.markercluster/dist/MarkerCluster.css' rel='stylesheet' />
+    <link href='https://leaflet.github.io/Leaflet.markercluster/dist/MarkerCluster.Default.css' rel='stylesheet'/>
+    <script src='https://leaflet.github.io/Leaflet.markercluster/dist/leaflet.markercluster-src.js'></script>
+
+    <script src="data/deps_idf.js" type="text/javascript"></script>
+    <script src="data/stations_autolib.js" type="text/javascript"></script>
 
     <script src="data/rer_a.js" type="text/javascript"></script>
     <script src="data/rer_b.js" type="text/javascript"></script>
@@ -115,17 +122,18 @@
             });
 
             //Add Geocoder
-            let osmGeocoder = new L.Control.OSMGeocoder(); map.addControl(osmGeocoder);
+            let osmGeocoder = new L.Control.OSMGeocoder();
+            map.addControl(osmGeocoder);
 
             //popUp function
             function onEachFeature(feature, layer) {
-                if (feature.properties && feature.properties.popupContent) {
+                if (feature.properties ) {
                     layer.bindPopup("<b>" + feature.properties.CODE_DEPT + "</b><br>" + feature.properties.NOM_DEPT);
                 }
             }
 
             //Add Layer Geocoder of IDF department
-            let deps_idf = new L.geoJson(deps_idf, {
+            new L.geoJson(deps_idf, {
                 onEachFeature: onEachFeature,
                 style: function (feature) {
                     return {
@@ -136,9 +144,49 @@
                         fillOpacity: feature.properties.transp_qgis2leaf
                     };
                 }
-            });
-            deps_idf.addTo(map);
+            }).addTo(map);
 
+            //Add scale
+            L.control.scale().addTo(map);
+
+            //Add markers
+            let title = new L.Control();
+            title.onAdd = function (map) {
+                this._div = L.DomUtil.create('div', 'info');
+                this.update();
+                return this._div;
+            };
+
+            title.update = function () {
+                this._div.innerHTML =  '<h2>Les transports en <br> Ile­de­France </h2>2014<br>' +
+                    '<img src="./img/stif_logo.png" /><br>' +
+                    '<img src="./img/sncf_logo.png" /><br>' +
+                    '<img src="./img/autolib_logo.png"/>'
+
+            };
+            title.addTo(map);
+
+            //Clusters
+            let stations = new L.MarkerClusterGroup();
+            for (let feature of stations_autolib.features) {
+                let marker = new L.Marker([feature.properties.lat, feature.properties.lon], {title: feature.properties.nom_de_la_});
+                stations.addLayer(marker);
+            }
+            map.addLayer(stations);
+
+            // Add OSM
+            let osm = new L.TileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
+
+            // Using Esri beside Mapbox
+            let Esri_WorldImagery = L.tileLayer('http://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
+                attribution: 'Tiles © Esri — Source: Esri, i-cubed, USDA, USGS, ' + 'AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community'
+            });
+
+            let baseLayers = {
+                "OSM":osm,
+                "OSM Esri":Esri_WorldImagery
+            };
+            L.control.layers(baseLayers).addTo(map)
 
         </script>
     </body>

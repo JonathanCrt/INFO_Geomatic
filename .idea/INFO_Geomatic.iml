@@ -4,5 +4,9 @@
     <content url="file://$MODULE_DIR$" />
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="library" name="leaflet.markercluster" level="application" />
+    <orderEntry type="library" name="leaflet.markercluster-src" level="application" />
+    <orderEntry type="library" name="MarkerCluster.Default" level="application" />
+    <orderEntry type="library" name="MarkerCluster" level="application" />
   </component>
 </module>
