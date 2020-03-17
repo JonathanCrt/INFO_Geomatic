@@ -20,8 +20,9 @@
           href="https://rawgit.com/k4r573n/leaflet-control-osm-geocoder/master/Control.OSMGeocoder.css"/>
     <link rel="stylesheet" href="css/titles.css"/>
 
-    <!­­ Departements idf ­­>
+    <!­­ Departements idf & popup ­­>
     <script src="data/deps_idf.js"></script>
+    <script src="js/popup.js"></script>
 
     <!­­ Data RER ­­>
     <script src="data/rer_a.js" type="text/javascript"></script>
@@ -44,9 +45,8 @@
 <div id="map"></div>
 <script>
 
-    //let map = L.map('map').setView([48.75, 2], 8);
     //Instanciation de l'objet map
-    var map = L.map('map', {
+    let map = L.map('map', {
         fullscreenControl: true,
         fullscreenControlOptions: { // optional
             title: "Show me the fullscreen !"
@@ -59,7 +59,6 @@
     }).addTo(map);
 
     const rers = new L.LayerGroup();
-
     //Ajout des layers GeoJSON des RERs
     var RERA = L.geoJson(RERA, {
         style: (feature) => {
@@ -115,6 +114,9 @@
         }
     });
 
+    let RERarray = [];
+
+
     RERA.addTo(rers);
     RERB.addTo(rers);
     RERC.addTo(rers);
@@ -145,14 +147,6 @@
     const osmGeocoder = new L.Control.OSMGeocoder();
     map.addControl(osmGeocoder);
 
-    //fonction popup
-    function onEachFeature(feature, layer) {
-        if (feature.properties) {
-            layer.bindPopup("<b>" + feature.properties.CODE_DEPT + "</b><br>" +
-                feature.properties.NOM_DEPT);
-        }
-    }
-
     //Ajout du layer GeoJSON Departements IDF
     var deps_idf = new L.geoJson(deps_idf, {
         onEachFeature: onEachFeature,
@@ -176,7 +170,7 @@
     L.control.scale().addTo(map);
     rers.addTo(map);
 
-    var title = new L.Control();
+    const title = new L.Control();
     title.onAdd = function (map) {
         this._div = L.DomUtil.create('div', 'info'); // create a div with a class
         "info"
@@ -191,13 +185,26 @@
     };
     title.addTo(map);
 
-    var stations_autolib_cluster = new L.MarkerClusterGroup();
+    const stations_autolib_cluster = new L.MarkerClusterGroup();
     for (let feature of stations_autolib.features) {
         const marker = new L.Marker([feature.properties.lat, feature.properties.lon], {title: feature.properties.nom_de_la_});
         stations_autolib_cluster.addLayer(marker);
     }
     map.addLayer(stations_autolib_cluster);
 
+    //Ajout du fond OSM
+    const osm = new L.TileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png');
+    osm.addTo(map);
+
+    const Esri_WorldImagery = L.tileLayer('http://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {attribution: 'Tiles © Esri — Source: Esri, i-cubed, USDA, USGS, ' + 'AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community'});
+    Esri_WorldImagery.addTo(map);
+
+    //défintion des layers pour le contrôleur de couches
+    const baseLayers = {
+        "OSM world's map": osm,
+        "OSM world imagery": Esri_WorldImagery
+    };
+    L.control.layers(baseLayers).addTo(map);
 
 </script>
 
