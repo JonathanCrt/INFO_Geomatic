@@ -1,81 +1,125 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>Transports en île­de­France</title> <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device­width, initial­scale=1.0">
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.6.0/dist/leaflet.css" />
+    <title>Transports en île­de­France</title>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.6.0/dist/leaflet.css"/>
+    <link href='https://api.mapbox.com/mapbox.js/plugins/leaflet-fullscreen/v1.0.1/leaflet.fullscreen.css'
+          rel='stylesheet'/>
     <script src="https://unpkg.com/leaflet@1.6.0/dist/leaflet.js"></script>
     <script src="data/rer_a.js" type="text/javascript"></script>
     <script src="data/rer_b.js" type="text/javascript"></script>
     <script src="data/rer_c.js" type="text/javascript"></script>
     <script src="data/rer_d.js" type="text/javascript"></script>
     <script src="data/rer_e.js" type="text/javascript"></script>
-
-    <style>
-        #map {
-            height: 600px;
-        }
-    </style>
+    <script src="js/rer.js" type="text/javascript"></script>
+    <script src='https://api.mapbox.com/mapbox.js/plugins/leaflet-fullscreen/v1.0.1/Leaflet.fullscreen.min.js'></script>
+    <link rel="stylesheet" href="css/map-fullscreen.css"/>
 </head>
 <body>
-    <div id="map"></div>
-    <script>
-        let map = L.map('map').setView([48.75, 2], 8); 
-        L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', { maxZoom: 18}).addTo(map);
-        L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
-            attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, '
-        }).addTo(map);
-        
-        //Ajout des layers GeoJSON des RERs
-
-        var RERA = L.geoJson(RERA, { style: (feature) => {
-            return {weight: feature.properties.radius_qgis2leaf,
-            color: feature.properties.color_qgis2leaf,
-            opacity: feature.properties.transp_qgis2leaf,
-            fillOpacity: feature.properties.transp_qgis2leaf};
+<div id="map"></div>
+<script>
+    //let map = L.map('map').setView([48.75, 2], 8);
+    //Instanciation de l'objet map
+    var map = L.map('map', {
+        fullscreenControl: true,
+        fullscreenControlOptions: { // optional
+            title: "Show me the fullscreen !"
         }
-        });
-        var RERB = L.geoJson(RERB, { style: (feature) => {
-            return {weight: feature.properties.radius_qgis2leaf,
-            color: feature.properties.color_qgis2leaf,
-            opacity: feature.properties.transp_qgis2leaf,
-            fillOpacity: feature.properties.transp_qgis2leaf};
+    });
+    map.setView([48.75, 2], 8);
+    L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {maxZoom: 18}).addTo(map);
+    L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
+        attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, '
+    }).addTo(map);
+
+
+    // initial grip pour 'map'
+    map.setView([48.75, 2], 8);
+
+    //Ajout des layers GeoJSON des RERs
+    var RERA = L.geoJson(RERA, {
+        style: (feature) => {
+            return {
+                weight: feature.properties.radius_qgis2leaf,
+                color: feature.properties.color_qgis2leaf,
+                opacity: feature.properties.transp_qgis2leaf,
+                fillOpacity: feature.properties.transp_qgis2leaf
+            };
         }
-        });
-
-        var RERC = L.geoJson(RERC, { style: (feature) => {
-            return {weight: feature.properties.radius_qgis2leaf,
-            color: feature.properties.color_qgis2leaf,
-            opacity: feature.properties.transp_qgis2leaf,
-            fillOpacity: feature.properties.transp_qgis2leaf};
+    });
+    var RERB = L.geoJson(RERB, {
+        style: (feature) => {
+            return {
+                weight: feature.properties.radius_qgis2leaf,
+                color: feature.properties.color_qgis2leaf,
+                opacity: feature.properties.transp_qgis2leaf,
+                fillOpacity: feature.properties.transp_qgis2leaf
+            };
         }
-        });
+    });
 
-        var RERD = L.geoJson(RERD, { style: (feature) => {
-            return {weight: feature.properties.radius_qgis2leaf,
-            color: feature.properties.color_qgis2leaf,
-            opacity: feature.properties.transp_qgis2leaf,
-            fillOpacity: feature.properties.transp_qgis2leaf};
+    var RERC = L.geoJson(RERC, {
+        style: (feature) => {
+            return {
+                weight: feature.properties.radius_qgis2leaf,
+                color: feature.properties.color_qgis2leaf,
+                opacity: feature.properties.transp_qgis2leaf,
+                fillOpacity: feature.properties.transp_qgis2leaf
+            };
         }
-        });
+    });
 
-        var RERE = L.geoJson(RERE, { style: (feature) => {
-            return {weight: feature.properties.radius_qgis2leaf,
-            color: feature.properties.color_qgis2leaf,
-            opacity: feature.properties.transp_qgis2leaf,
-            fillOpacity: feature.properties.transp_qgis2leaf};
+    var RERD = L.geoJson(RERD, {
+        style: (feature) => {
+            return {
+                weight: feature.properties.radius_qgis2leaf,
+                color: feature.properties.color_qgis2leaf,
+                opacity: feature.properties.transp_qgis2leaf,
+                fillOpacity: feature.properties.transp_qgis2leaf
+            };
         }
-        });        
+    });
 
-        RERA.addTo(map);
-        RERB.addTo(map);
-        RERC.addTo(map);
-        RERD.addTo(map);
-        RERE.addTo(map);
-        // initial grip pour 'map'
-        map.setView([48.75, 2], 8);
+    var RERE = L.geoJson(RERE, {
+        style: (feature) => {
+            return {
+                weight: feature.properties.radius_qgis2leaf,
+                color: feature.properties.color_qgis2leaf,
+                opacity: feature.properties.transp_qgis2leaf,
+                fillOpacity: feature.properties.transp_qgis2leaf
+            };
+        }
+    });
 
+    RERA.addTo(map);
+    RERB.addTo(map);
+    RERC.addTo(map);
+    RERD.addTo(map);
+    RERE.addTo(map);
 
-    </script>
+    //icone image pour POI Aéroport
+    const airportIcon = L.icon({
+        iconUrl: 'img/icon_airport.png',
+    });
+    //Création d'un groupe de marqueurs pour les aéroports
+    const airports = new L.LayerGroup();
+
+    L.marker([48.7318763, 2.369796], {icon: airportIcon}).bindPopup('Aéroport de ParisOrly.').addTo(airports);
+    L.marker([49.009691, 2.547924], {icon: airportIcon}).bindPopup('Aéroport de ParisRoissy Charles­de­Gaulle.').addTo(airports);
+    L.marker([48.961472, 2.437202], {icon: airportIcon}).bindPopup('Aéroport du Bourget').addTo(airports);
+    airports.addTo(map);
+
+    // detect fullscreen toggling
+    map.on('enterFullscreen', () => {
+        if (window.console) window.console.log('enterFullscreen');
+    });
+    map.on('exitFullscreen',  () =>{
+        if (window.console) window.console.log('exitFullscreen');
+    });
+
+</script>
+
 </body>
 </html>
