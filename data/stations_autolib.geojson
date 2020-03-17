@@ -1,4 +1,4 @@
-let stations_autolib ={
+var stations_autolib ={
 "type": "FeatureCollection",
 "crs": { "type": "name", "properties": { "name": "urn:ogc:def:crs:OGC:1.3:CRS84" } },
                                                                                 
@@ -851,4 +851,5 @@ let stations_autolib ={
 { "type": "Feature", "properties": { "lat": 48.84, "lon": 2.356, "identifian": "75105-01", "code_posta": "75005", "ville": "Paris", "type_de_st": "Station", "emplacemen": "Voirie", "nom_de_la_": "Paris\/Geoffroy-Saint-Hilaire\/27", "places_aut": "4", "places_rec": "1", "nombre_tot": "5" }, "geometry": { "type": "MultiPoint", "coordinates": [ [ 2.3562719, 48.8403227 ] ] } },
 { "type": "Feature", "properties": { "lat": 48.848, "lon": 2.351, "identifian": "75105-10", "code_posta": "75005", "ville": "Paris", "type_de_st": "Station", "emplacemen": "Voirie", "nom_de_la_": "Paris\/Écoles\/19", "places_aut": "4", "places_rec": "1", "nombre_tot": "5" }, "geometry": { "type": "MultiPoint", "coordinates": [ [ 2.3509722, 48.8478612 ] ] } }
 ]
+}
 }

@@ -1,30 +1,145 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>Transports en île­de­France</title> <meta charset="utf­8" />
+    <title>Transports en île­de­France</title> <meta charset="UTF-8" />
     <meta name="viewport" content="width=device­width, initial­scale=1.0">
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.6.0/dist/leaflet.css" />
     <script src="https://unpkg.com/leaflet@1.6.0/dist/leaflet.js"></script>
-<!--    <script src="data/rer_a.js" type="text/javascript"></script>-->
+
+    <script src="js/Control/FullScreen.js"></script>
+    <script src="css/FullScreen.css"></script>
+    <script src="css/resize_screen.css"></script>
+
+    <script src="js/Control/OSMGeocoder.js"></script>
+    <script src="css/OSMGeocoder.css"></script>
+    
+    <script src="data/rer_a.js" type="text/javascript"></script>
+    <script src="data/rer_b.js" type="text/javascript"></script>
+    <script src="data/rer_c.js" type="text/javascript"></script>
+    <script src="data/rer_d.js" type="text/javascript"></script>
+    <script src="data/rer_e.js" type="text/javascript"></script>
+
     <style>
         #map {
-            /*height: 600px;*/
+            height: 600px;
         }
     </style>
 </head>
-<body>
-    <div id="map"></div>
-    <script>
-        let map = L.map('map').setView([48.75, 2], 8); L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', { maxZoom: 18}).addTo(map);
-        L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
-            // attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors',
-            attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, '
-        }).addTo(map);
+    <body>
+        <div id="map"></div>
+        <script>
+            let map = L.map('map', {
+                fullscreenControl: true, fullscreenControlOptions: { title:"Show me the fullscreen !" }
+            }).setView([48.75, 2], 8);
 
-        // initial grip pour 'map'
-        map.setView([48.75, 2], 8);
+            L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', { maxZoom: 18}).addTo(map);
+
+            L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
+                attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, '
+            }).addTo(map);
+
+            L.geoJson(RERA,  {style: (feature) => {
+                    return {weight: feature.properties.radius_qgis2leaf,
+                        color: feature.properties.color_qgis2leaf,
+                        opacity: feature.properties.transp_qgis2leaf,
+                        fillOpacity: feature.properties.transp_qgis2leaf
+                    };
+                }}).addTo(map);
+
+            L.geoJson(RERB,  {style: (feature) => {
+                    return {weight: feature.properties.radius_qgis2leaf,
+                        color: feature.properties.color_qgis2leaf,
+                        opacity: feature.properties.transp_qgis2leaf,
+                        fillOpacity: feature.properties.transp_qgis2leaf
+                    };
+                }}).addTo(map);
+
+            L.geoJson(RERC,  {style: (feature) => {
+                return {weight: feature.properties.radius_qgis2leaf,
+                    color: feature.properties.color_qgis2leaf,
+                    opacity: feature.properties.transp_qgis2leaf,
+                    fillOpacity: feature.properties.transp_qgis2leaf
+                };
+            }}).addTo(map);
+
+            L.geoJson(RERD,  {style: (feature) => {
+                    return {weight: feature.properties.radius_qgis2leaf,
+                        color: feature.properties.color_qgis2leaf,
+                        opacity: feature.properties.transp_qgis2leaf,
+                        fillOpacity: feature.properties.transp_qgis2leaf
+                    };
+                }}).addTo(map);
+
+            L.geoJson(RERE,  {style: (feature) => {
+                    return {weight: feature.properties.radius_qgis2leaf,
+                        color: feature.properties.color_qgis2leaf,
+                        opacity: feature.properties.transp_qgis2leaf,
+                        fillOpacity: feature.properties.transp_qgis2leaf
+                    };
+                }}).addTo(map);
+
+            // initial grip pour 'map'
+            map.setView([48.75, 2], 8);
+
+            //Marker
+            let marker = L.marker([51.5, -0.09]).addTo(map);
+
+            // use icon
+            let airportIcon = L.icon({
+                iconUrl: 'img/icon_airport.png',
+            });
+
+            // Create a marker group for the airports
+            let airports = new L.LayerGroup();
+            L.marker([48.7318763,2.369796], {
+                icon: airportIcon
+            }).bindPopup('Aéroport de Paris­Orly.').addTo(airports);
+
+            L.marker([49.009691,2.547924], {
+                icon: airportIcon
+            }).bindPopup('Aéroport de Paris­Roissy Charles­de­Gaulle.').addTo(airports);
+
+            L.marker([48.961472,2.437202], {
+                icon: airportIcon
+            }).bindPopup('Aéroport duBourget').addTo(airports);
+
+            airports.addTo(map);
+
+            //fullscreen on/off
+            map.on('enterFullscreen', function(){
+                if(window.console) window.console.log('enterFullscreen');
+            });
+
+            map.on('exitFullscreen', function(){
+                if(window.console) window.console.log('exitFullscreen');
+            });
+
+            //Add Geocoder
+            let osmGeocoder = new L.Control.OSMGeocoder(); map.addControl(osmGeocoder);
+
+            //popUp function
+            function onEachFeature(feature, layer) {
+                if (feature.properties && feature.properties.popupContent) {
+                    layer.bindPopup("<b>" + feature.properties.CODE_DEPT + "</b><br>" + feature.properties.NOM_DEPT);
+                }
+            }
+
+            //Add Layer Geocoder of IDF department
+            let deps_idf = new L.geoJson(deps_idf, {
+                onEachFeature: onEachFeature,
+                style: function (feature) {
+                    return {
+                        color: feature.properties.border_color_qgis2leaf,
+                        fillColor: feature.properties.color_qgis2leaf,
+                        weight: feature.properties.radius_qgis2leaf,
+                        opacity: feature.properties.transp_qgis2leaf,
+                        fillOpacity: feature.properties.transp_qgis2leaf
+                    };
+                }
+            });
+            deps_idf.addTo(map);
 
 
-    </script>
-</body>
+        </script>
+    </body>
 </html>

@@ -1,4 +1,4 @@
-let reseau_sncf = {
+var reseau_sncf = {
 "type": "FeatureCollection",
 "crs": { "type": "name", "properties": { "name": "urn:ogc:def:crs:OGC:1.3:CRS84" } },
                                                                                 
