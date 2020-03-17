@@ -7,5 +7,9 @@
     <orderEntry type="library" name="Leaflet.fullscreen" level="application" />
     <orderEntry type="library" name="leaflet" level="application" />
     <orderEntry type="library" name="leaflet.fullscreen" level="application" />
+    <orderEntry type="library" name="Control.OSMGeocoder" level="application" />
+    <orderEntry type="library" name="MarkerCluster" level="application" />
+    <orderEntry type="library" name="MarkerCluster.Default" level="application" />
+    <orderEntry type="library" name="leaflet.markercluster-src" level="application" />
   </component>
 </module>
