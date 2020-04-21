@@ -58,7 +58,92 @@
         attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, '
     }).addTo(map);
 
-    const rers = new L.LayerGroup();
+    const groupLayers = new L.LayerGroup();
+
+
+    /**
+     * Ajout couche via accés geoserver pt 3 --> Afficher un flux WMS sur votre carte Leaflet
+     * J'ai affiché les lignes RER, les communes, gares et départements via le flux.
+    /*
+    let rerAWMS = L.tileLayer.wms("http://localhost:8080/geoserver/Geographic_servor/wms?", {
+        layers: 'Geographic_servor:rer_a',
+        transparent: true,
+        format: 'image/png',
+    });
+
+    //RER B from WMS
+    let rerBWMS = L.tileLayer.wms("http://localhost:8080/geoserver/Geographic_servor/wms?", {
+        layers: 'Geographic_servor:rer_b',
+        transparent: true,
+        format: 'image/png'
+    });
+
+    //RER C from WMS
+    let rerCWMS = L.tileLayer.wms("http://localhost:8080/geoserver/Geographic_servor/wms?", {
+        layers: 'Geographic_servor:rer_c',
+        transparent: true,
+        format: 'image/png'
+    });
+
+    //RER D from WMS
+    let rerDWMS = L.tileLayer.wms("http://localhost:8080/geoserver/Geographic_servor/wms?", {
+        layers: 'Geographic_servor:rer_d',
+        transparent: true,
+        format: 'image/png'
+    });
+
+    // RER E from WMS
+    let rerEWMS = L.tileLayer.wms("http://localhost:8080/geoserver/Geographic_servor/wms?", {
+        layers: 'Geographic_servor:rer_e',
+        transparent: true,
+        format: 'image/png'
+    });
+
+    // add countries from wms
+    let citiesWMS = L.tileLayer.wms("http://localhost:8080/geoserver/Geographic_servor/wms?", {
+        layers: 'Geographic_servor:commune_idf',
+        transparent: true,
+        format: 'image/png',
+    });
+
+    let stationsWMS = L.tileLayer.wms("http://localhost:8080/geoserver/Geographic_servor/wms?", {
+        layers: 'Geographic_servor:gares',
+        transparent: true,
+        format: 'image/png'
+    });
+
+     let deptWMS = L.tileLayer.wms("http://localhost:8080/geoserver/Geographic_servor/wms?", {
+        layers: 'Geographic_servor:dept_idf',
+        transparent: true,
+        format: 'image/png'
+    });
+
+
+    let stationsWFS = L.tileLayer("http://localhost:8080/geoserver/Geographic_servor/wms?");
+
+    let controlLayers = {
+        "RER_A": rerAWMS,
+        "RER_B": rerBWMS,
+        "RER_C": rerCWMS,
+        "RER_D": rerDWMS,
+        "RER_E": rerEWMS,
+        "Communes": citiesWMS,
+        "Gares": stationsWMS,
+        "Departements": deptWMS"
+    };
+
+    L.control.layers(null, controlLayers).addTo(map);
+
+    rerAWMS.addTo(groupLayers);
+    rerBWMS.addTo(groupLayers);
+    rerCWMS.addTo(groupLayers);
+    rerDWMS.addTo(groupLayers);
+    rerEWMS.addTo(groupLayers);
+    citiesWMS.addTo(groupLayers);
+    stationsWMS.addTo(groupLayers);
+     deptWMS.addTo(groupLayers);
+    */
+
     //Ajout des layers GeoJSON des RERs
     var RERA = L.geoJson(RERA, {
         style: (feature) => {
@@ -115,13 +200,12 @@
     });
 
     let RERarray = [];
+    RERA.addTo(groupLayers);
+    RERB.addTo(groupLayers);
+    RERC.addTo(groupLayers);
+    RERD.addTo(groupLayers);
+    RERE.addTo(groupLayers);
 
-
-    RERA.addTo(rers);
-    RERB.addTo(rers);
-    RERC.addTo(rers);
-    RERD.addTo(rers);
-    RERE.addTo(rers);
 
     //icone image pour POI Aéroport
     const airportIcon = L.icon({
@@ -166,9 +250,10 @@
         }
     });
     deps_idf.addTo(map);
+
     // Ajout de l'échelle
     L.control.scale().addTo(map);
-    rers.addTo(map);
+    groupLayers.addTo(map);
 
     const title = new L.Control();
     title.onAdd = function (map) {
