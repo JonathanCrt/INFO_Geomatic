@@ -1,0 +1,170 @@
+# MapProxy configuration automatically generated from:
+#   http://localhost/qgisserver?map=/home/qgis/descartes/descartes.qgz
+#
+# NOTE: The generated configuration can be highly inefficient,
+#       especially when multiple layers and caches are requested at once.
+#       Make sure you understand the generated configuration!
+#
+# Created on 2021-01-15 22:27:03.535553 with:
+# /usr/local/bin/mapproxy-util autoconfig --output=qgis-server.yaml -- \
+#    capabilities=http://localhost/qgisserver?map=/home/qgis/descartes \
+#    /descartes.qgz
+
+caches: 
+  descartes_batiments_and_transports:
+    grids: [GLOBAL_WEBMERCATOR]
+    sources: [autopartage_wms, batiments_wms, highway_wms, poi_new_wms, railway_wms, railway_station_wms, rerA_wms, arret_bus_wms, google_sat_wms]
+    meta_size: [8, 8] 
+    meta_buffer: 256
+    cache:
+      type: file
+      directory: tile-cache/descartes_batiments_and_transports
+      directory_layout: tms
+layers:
+  - name: autopartage
+    sources: [autopartage_wms]
+    title: autopartage
+  - name: batiments
+    sources: [batiments_wms]
+    title: batiments
+  - name: highway
+    sources: [highway_wms]
+    title: highway
+  - name: poi_new
+    sources: [poi_new_wms]
+    title: poi_new
+  - name: railway
+    sources: [railway_wms]
+    title: railway
+  - name: railway_station
+    sources: [railway_station_wms]
+    title: railway_station
+  - name: rerA
+    sources: [rerA_wms]
+    title: rerA
+  - name: arret_bus
+    sources: [arret_bus_wms]
+    title: arret_bus
+  - name: google_sat
+    sources: [google_sat_wms]
+    title: google_sat
+  - name: descartes_batiments_and_transports
+    sources: [descartes_batiments_and_transports] 
+    title: descartes -> batiments + transports
+services:
+  wms:
+    md:
+      title: QGIS Server Demo
+  demo:
+  wmts:
+    kvp: false
+    restful: true
+sources:
+  arret_bus_wms:
+    coverage:
+      bbox: [2.582418, 48.835115, 2.593257, 48.845183]
+      srs: EPSG:4326
+    req:
+      layers: arret_bus
+      transparent: true
+      url: http://localhost/qgisserver?map=%2Fhome%2Fqgis%2Fdescartes%2Fdescartes.qgz&
+    supported_srs: ['CRS:84', 'EPSG:2154', 'EPSG:3857', 'EPSG:4326']
+    type: wms
+    wms_opts:
+      featureinfo: true
+  autopartage_wms:
+    coverage:
+      bbox: [2.582337, 48.835154, 2.592947, 48.84286]
+      srs: EPSG:4326
+    req:
+      layers: autopartage
+      transparent: true
+      url: http://localhost/qgisserver?map=%2Fhome%2Fqgis%2Fdescartes%2Fdescartes.qgz&
+    supported_srs: ['CRS:84', 'EPSG:2154', 'EPSG:3857', 'EPSG:4326']
+    type: wms
+    wms_opts:
+      featureinfo: true
+  batiments_wms:
+    coverage:
+      bbox: [2.581163, 48.834251, 2.593929, 48.846414]
+      srs: EPSG:4326
+    req:
+      layers: batiments
+      transparent: true
+      url: http://localhost/qgisserver?map=%2Fhome%2Fqgis%2Fdescartes%2Fdescartes.qgz&
+    supported_srs: ['CRS:84', 'EPSG:2154', 'EPSG:3857', 'EPSG:4326']
+    type: wms
+    wms_opts:
+      featureinfo: true
+  google_sat_wms:
+    coverage:
+      bbox: [669189.151376, 6859422.065817, 670210.388492, 6860703.377984]
+      srs: EPSG:4326
+    req:
+      layers: google_sat
+      transparent: true
+      url: http://localhost/qgisserver?map=%2Fhome%2Fqgis%2Fdescartes%2Fdescartes.qgz&
+    supported_srs: ['CRS:84', 'EPSG:2154', 'EPSG:3857', 'EPSG:4326']
+    type: wms
+    wms_opts:
+      featureinfo: true
+  highway_wms:
+    coverage:
+      bbox: [2.569578, 48.8264, 2.614773, 48.850399]
+      srs: EPSG:4326
+    req:
+      layers: highway
+      transparent: true
+      url: http://localhost/qgisserver?map=%2Fhome%2Fqgis%2Fdescartes%2Fdescartes.qgz&
+    supported_srs: ['CRS:84', 'EPSG:2154', 'EPSG:3857', 'EPSG:4326']
+    type: wms
+    wms_opts:
+      featureinfo: true
+  poi_new_wms:
+    coverage:
+      bbox: [2.574201, 48.834926, 2.593333, 48.85482]
+      srs: EPSG:4326
+    req:
+      layers: poi_new
+      transparent: true
+      url: http://localhost/qgisserver?map=%2Fhome%2Fqgis%2Fdescartes%2Fdescartes.qgz&
+    supported_srs: ['CRS:84', 'EPSG:2154', 'EPSG:3857', 'EPSG:4326']
+    type: wms
+    wms_opts:
+      featureinfo: true
+  railway_station_wms:
+    coverage:
+      bbox: [2.579049, 48.842773, 2.581872, 48.843034]
+      srs: EPSG:4326
+    req:
+      layers: railway_station
+      transparent: true
+      url: http://localhost/qgisserver?map=%2Fhome%2Fqgis%2Fdescartes%2Fdescartes.qgz&
+    supported_srs: ['CRS:84', 'EPSG:2154', 'EPSG:3857', 'EPSG:4326']
+    type: wms
+    wms_opts:
+      featureinfo: true
+  railway_wms:
+    coverage:
+      bbox: [2.575945, 48.842419, 2.59631, 48.843355]
+      srs: EPSG:4326
+    req:
+      layers: railway
+      transparent: true
+      url: http://localhost/qgisserver?map=%2Fhome%2Fqgis%2Fdescartes%2Fdescartes.qgz&
+    supported_srs: ['CRS:84', 'EPSG:2154', 'EPSG:3857', 'EPSG:4326']
+    type: wms
+    wms_opts:
+      featureinfo: true
+  rerA_wms:
+    coverage:
+      bbox: [2.570327, 48.841764, 2.613358, 48.843451]
+      srs: EPSG:4326
+    req:
+      layers: rerA
+      transparent: true
+      url: http://localhost/qgisserver?map=%2Fhome%2Fqgis%2Fdescartes%2Fdescartes.qgz&
+    supported_srs: ['CRS:84', 'EPSG:2154', 'EPSG:3857', 'EPSG:4326']
+    type: wms
+    wms_opts:
+      featureinfo: true
