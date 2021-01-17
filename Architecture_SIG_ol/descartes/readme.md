@@ -2,9 +2,9 @@
 
 What was done ....
 
-## Interactive web map
+## An Interactive web map...
 
-Initial projections  : 
+This map display the "Cité Descartes" with the following layers : 
  * autopartage -> EPSG:2154
  * batiments -> EPSG:4326
  * highway -> EPSG:4326
@@ -17,12 +17,19 @@ Initial projections  :
 
 translate to EPSG:3857 because EPSG;2154 is not supported by MapProxy
 
-## Option : A selector of the bottom layer 
+## ... enclosed with some features
+
+
+- An overwiew at the top right of the map (https://openlayers.org/en/latest/examples/overviewmap.html)
+- Displaying mouse coordinates (https://openlayers.org/en/latest/examples/mouse-position.html)
+- Measure (https://openlayers.org/en/latest/examples/measure.html)
+- Two selectors to choose display modes (single image/tiling) of upper/bottom layers
 
 
 ## A little style and responsive design... 
 
-
+I addded Bootstrap 5 (beta) to give a clean style to the project
+https://getbootstrap.com/
 
 ### mapproxy command  : 
 
