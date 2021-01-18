@@ -23,7 +23,7 @@
       <div class="col-sm">
 
         <h2 class="text-success"> Options </h2>
-        <form class="col-sm-6">
+        <form class="col-md-6 col-sm-6 col-xs-12">
           <label for="projection">Projection : </label>
           <select id="projection" class="form-select">
             <option value="EPSG:4326">EPSG:4326</option>
@@ -64,12 +64,13 @@
             <option value="length">Longueur (Ligne)</option>
             <option value="area">Aire (Polygone)</option>
           </select>
+          <div><img id="legend"/></div>
 
         </form>
 
       </div>
 
-      <div class="col-sm">
+      <div class="col-md-6 col-sm-6 col-sm-6 col-xs-12">
         <div id="map" class="map"></div>
       </div>
 

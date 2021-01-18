@@ -41,7 +41,11 @@ let layerWMSGoogleSatFromQgisServerTiles = new ol.layer.Tile({
   opacity: 1
 });
 
-
+var wmsSource = new ol.source.ImageWMS({
+  url: 'http://localhost:8080/service?',
+    params: { 'LAYERS': 'descartes_batiments_and_transports', 'MAP': '/home/qgis/descartes/descartes.qgz' },
+  crossOrigin: 'anonymous'
+});
 
 let layerWMSGoogleSatFromMapproxy = new ol.layer.Image({
   title: 'Google Satellite bottom layer from MapProxy',
@@ -99,6 +103,17 @@ let layerBatimentsTransportsFromMapproxyTiles = new ol.layer.Tile({
  */
 
 /***************************************** Extends functionnalities *****************************************/
+
+
+// legend
+
+let updateLegend =  (resolution) => {
+  let graphicUrl = wmsSource.getLegendUrl(resolution);
+  let img = document.getElementById('legend');
+  img.src = graphicUrl;
+};
+
+
 //  for measure tool
 let sketch;
 let helpTooltipElement;
@@ -230,6 +245,18 @@ map.on('pointermove', pointerMoveHandler);
 map.getViewport().addEventListener('mouseout', () => {
   helpTooltipElement.classList.add('hidden');
 });
+
+// Initial legend
+let resolution = map.getView().getResolution();
+updateLegend(resolution);
+
+// Update the legend when the resolution changes
+map.getView().on('change:resolution', (event) => {
+   resolution = event.target.getResolution();
+  updateLegend(resolution);
+});
+
+
 
 let typeSelect = document.getElementById('type');
 let draw;
