@@ -43,7 +43,7 @@ let layerWMSGoogleSatFromQgisServerTiles = new ol.layer.Tile({
 
 var wmsSource = new ol.source.ImageWMS({
   url: 'http://localhost:8080/service?',
-    params: { 'LAYERS': 'descartes_batiments_and_transports', 'MAP': '/home/qgis/descartes/descartes.qgz' },
+  params: { 'LAYERS': 'descartes_batiments_and_transports', 'MAP': '/home/qgis/descartes/descartes.qgz' },
   crossOrigin: 'anonymous'
 });
 
@@ -70,7 +70,7 @@ let layerWMSGoogleSatFromMapProxyTiles = new ol.layer.Tile({
 
 
 let layerBatimentsTransportsFromMapproxyInSingleImage = new ol.layer.Image({
-  title: 'Batiments and transports from MapProxy',
+  title: 'Building and transports from MapProxy',
   visible: false,
   source: new ol.source.ImageWMS({
     url: 'http://localhost:8080/service?',
@@ -80,7 +80,7 @@ let layerBatimentsTransportsFromMapproxyInSingleImage = new ol.layer.Image({
 });
 
 let layerBatimentsTransportsFromMapproxyTiles = new ol.layer.Tile({
-  title: 'Batiments and transports from MapProxy with tiling',
+  title: 'Building and transports from MapProxy with tiling',
   visible: false,
   source: new ol.source.TileWMS({
     url: 'http://localhost:8080/service?',
@@ -88,6 +88,63 @@ let layerBatimentsTransportsFromMapproxyTiles = new ol.layer.Tile({
   }),
   opacity: 1
 });
+
+
+let layerBuildingSourceWFS = new ol.source.Vector({
+  format: new ol.format.GeoJSON(),
+  url: (extent) => {
+    return (
+      'http://localhost/qgisserver?MAP=/home/qgis/descartes/descartes.qgz&service=WFS&' +
+      'version=1.1.0&request=GetFeature&typename=batiments&' +
+      'outputFormat=application/json&srsname=EPSG:3857&' +
+      'bbox=' +
+      extent.join(',') +
+      ',EPSG:3857'
+    );
+  },
+  strategy: ol.loadingstrategy.bbox,
+});
+
+let layerBuildingFromQgisServerWFS = new ol.layer.Vector({
+  title: 'Building with WFS from QgisServer',
+  source: layerBuildingSourceWFS,
+  style: new ol.style.Style({
+    stroke: new ol.style.Stroke({
+      color: 'rgba(0, 0, 255, 1.0)',
+      width: 2,
+    }),
+  }),
+});
+
+let layerArretBusSourceWFS = new ol.source.Vector({
+  format: new ol.format.GeoJSON(),
+  url: (extent) => {
+    return (
+      'http://localhost/qgisserver?MAP=/home/qgis/descartes/descartes.qgz&service=WFS&' +
+      'version=1.1.0&request=GetFeature&typename=arret_bus&' +
+      'outputFormat=application/json&srsname=EPSG:3857&' +
+      'bbox=' +
+      extent.join(',') +
+      ',EPSG:3857'
+    );
+  },
+  strategy: ol.loadingstrategy.bbox,
+});
+
+let layerArretBusFromQgisServerWFS = new ol.layer.Vector({
+  title: 'Bus with WFS from QgisServer',
+  source: layerArretBusSourceWFS,
+  style: new ol.style.Style({
+    stroke: new ol.style.Stroke({
+      color: 'rgba(255, 87, 51, 1.0)',
+      width: 2,
+    }),
+  }),
+});
+
+
+
+
 
 
 /**
@@ -107,7 +164,7 @@ let layerBatimentsTransportsFromMapproxyTiles = new ol.layer.Tile({
 
 // legend
 
-let updateLegend =  (resolution) => {
+let updateLegend = (resolution) => {
   let graphicUrl = wmsSource.getLegendUrl(resolution);
   let img = document.getElementById('legend');
   img.src = graphicUrl;
@@ -218,7 +275,8 @@ let map = new ol.Map({
     layerWMSGoogleSatFromMapProxyTiles,
     layerBatimentsTransportsFromMapproxyInSingleImage,
     layerBatimentsTransportsFromMapproxyTiles,
-    vector
+    vector,
+    layerBuildingFromQgisServerWFS
   ],
   controls: ol.control.defaults().extend([mousePositionControl, overviewMapControl]),
   interactions: ol.interaction.defaults().extend([new ol.interaction.DragRotateAndZoom()]),
@@ -252,7 +310,7 @@ updateLegend(resolution);
 
 // Update the legend when the resolution changes
 map.getView().on('change:resolution', (event) => {
-   resolution = event.target.getResolution();
+  resolution = event.target.getResolution();
   updateLegend(resolution);
 });
 
@@ -395,25 +453,23 @@ addInteraction();
 
 jQuery(() => {
 
+  const layers = [
+    layerWMSGoogleSatFromQgisServer,
+    layerWMSGoogleSatFromQgisServerTiles,
+    layerWMSGoogleSatFromMapproxy,
+    layerWMSGoogleSatFromMapProxyTiles,
+    layerBatimentsTransportsFromMapproxyInSingleImage
+  ];
+
+  function hideAllWMSLayers() {
+    layers.forEach((layer) => {
+      layer.setVisible(false);
+    });
+  }
 
   $("#layerSelect").on('change', () => {
     let selectValue = $("#layerSelect").val();
     console.log(selectValue);
-
-    const layers = [
-      layerWMSGoogleSatFromQgisServer,
-      layerWMSGoogleSatFromQgisServerTiles,
-      layerWMSGoogleSatFromMapproxy,
-      layerWMSGoogleSatFromMapProxyTiles,
-      layerBatimentsTransportsFromMapproxyInSingleImage
-    ];
-
-    function hideAllWMSLayers() {
-      layers.forEach((layer) => {
-        layer.setVisible(false);
-      });
-      layerBatimentsTransportsFromMapproxyInSingleImage.setVisible(true);
-    }
 
     switch (selectValue) {
       case "google_qgis_single":
@@ -445,14 +501,15 @@ jQuery(() => {
     let selectValueSet = $("#combinedLayerSelect").val();
     console.log(selectValueSet);
 
-
     switch (selectValueSet) {
       case "combined_mapproxy_single":
-        layerBatimentsTransportsFromMapproxyTiles.setVisible(false);
+        hideAllWMSLayers();
+        layerWMSGoogleSatFromMapproxy.setVisible(true);
         layerBatimentsTransportsFromMapproxyInSingleImage.setVisible(true);
         break;
       case "combined_mapproxy_tiles":
-        layerBatimentsTransportsFromMapproxyInSingleImage.setVisible(false);
+        hideAllWMSLayers();
+        layerWMSGoogleSatFromMapproxy.setVisible(true);
         layerBatimentsTransportsFromMapproxyTiles.setVisible(true);
         break;
       default:
@@ -461,7 +518,5 @@ jQuery(() => {
     }
 
   });
-
-
 
 })

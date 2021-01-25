@@ -42,6 +42,8 @@ sudo mapproxy-util serve-develop -b 127.0.0.1:8080 qgis-server.yaml
 
 ### WMS Qgis requests to postgis  : 
 
+data source : database crete from psotgis / host 127.0.0.1 / port 5432 / 
+
 Command in terminal : tail -f /var/log/postgresql/postgresql-VERSION-main.log
 
 SELECT st_asbinary("geom",'NDR'),"id","name"::text FROM "public"."batiments" WHERE "geom" && st_makeenvelope(2.58106571311475363,48.83425100000000185,2.59402628688524661,48.84641400000000289,4326)
