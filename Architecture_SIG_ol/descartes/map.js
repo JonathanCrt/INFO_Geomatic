@@ -11,7 +11,9 @@ let map = new ol.Map({
     layerBatimentsTransportsFromMapproxyInSingleImage,
     layerBatimentsTransportsFromMapproxyTiles,
     vector,
+    //layerPoiFromQgisServerWFS,
     layerBuildingFromQgisServerWFS
+
   ],
   controls: ol.control.defaults().extend([mousePositionControl, overviewMapControl]),
   interactions: ol.interaction.defaults().extend([new ol.interaction.DragRotateAndZoom()]),
@@ -183,3 +185,32 @@ typeSelect.onchange = function () {
 };
 
 addInteraction();
+//layerBuildingFromQgisServerWFS.setVisible(false);
+
+$("#wfsLayerCheckbox").change(() => {
+  if ($("#wfsLayerCheckbox").is(':checked')) {
+    map.addLayer(layerBuildingFromQgisServerWFS);
+  }
+  else {
+    map.removeLayer(layerBuildingFromQgisServerWFS);
+  }
+
+});
+
+/*
+$("#hideAllLayersCheckbox").change(() => {
+  let layersToRemove = [];
+  map.getLayers().forEach(function (layer) {
+    if (layer.get('name') != undefined) {
+      layersToRemove.push(layer);
+    }
+  });
+
+  var len = layersToRemove.length;
+  for (var i = 0; i < len; i++) {
+    map.removeLayer(layersToRemove[i]);
+  }
+});
+*/
+
+

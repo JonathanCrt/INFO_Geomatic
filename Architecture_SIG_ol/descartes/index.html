@@ -22,8 +22,10 @@
     <div class="row">
       <div class="col-sm">
 
-        <h2 class="text-success"> Options </h2>
+        <h2 class="text-success"> Welcome ! </h2>
+        <p>This project allows you to visualize, via a simple interface, "Cité Descartes" from Champs-sur-Marne.</p>
         <form class="col-md-6 col-sm-6 col-xs-12">
+          <h4 class="text-secondary">General options </h4>
           <label for="projection">Projection : </label>
           <select id="projection" class="form-select">
             <option value="EPSG:4326">EPSG:4326</option>
@@ -32,39 +34,55 @@
           <label for="precision">Precision : </label>
           <input id="precision" class="form-control col-sm-3" type="number" min="0" max="12" value="4" />
 
-          <label for="mouse-position">Coordonnées souris : </label>
+          <label for="mouse-position">Mouse coordinates : </label>
           <div class="card">
             <div class="card-body">
               <div id="mouse-position"></div>
             </div>
           </div>
-          <label for="layerSelect"> Mode d'affichage de la couche de fond Google Satellite : </label>
-          <select id="layerSelect" class="form-select">
-            <option value="google_qgis_single">(Qgis Server) Google Satellite image unique</option>
-            <option value="google_qgis_tiles">(Qgis Server) Google Satellite maillage </option>
-            <option value="google_mapproxy_single">(MapProxy) Google Satellite image unique</option>
-            <option value="google_mapproxy_tiles">(MapProxy) Google Satellite maillage</option>
-          </select>
-
-          <label for="combinedLayerSelect"> Mode d'affichage de la couche combinée (Batiments + Transports) : </label>
-          <select id="combinedLayerSelect" class="form-select">
-            <option value="combined_mapproxy_single">(MapProxy) Batiments + Transports image unique</option>
-            <option value="combined_mapproxy_tiles">(MapProxy) Batiments + Transports maillage</option>
-          </select>
-
-
           <div>
             <label>
-              <input type="checkbox" id="rotateWithView"> Rotation avec vue
+              <input type="checkbox" id="rotateWithView"> Rotation with view
             </label>
           </div>
 
-          <label for="type">Type de mesure &nbsp;</label>
+          <label for="type">Measure type &nbsp;</label>
           <select id="type" class="form-select">
-            <option value="length">Longueur (Ligne)</option>
-            <option value="area">Aire (Polygone)</option>
+            <option value="length">Length (Line)</option>
+            <option value="area">Aera (Polygon)</option>
           </select>
-          <div><img id="legend"/></div>
+          <div><img id="legend" /></div>
+
+
+          <h4 class="text-secondary">WMS Options </h4>
+          <label for="layerSelect"> Display mode of bottom layer Google Satellite : </label>
+          <select id="layerSelect" class="form-select">
+            <option value="google_qgis_single">(Qgis Server) Google Satellite image unique</option>
+            <option value="google_qgis_tiles">(Qgis Server) Google Satellite with tiling </option>
+            <option value="google_mapproxy_single">(MapProxy) Google Satellite image unique</option>
+            <option value="google_mapproxy_tiles">(MapProxy) Google Satellite with tiling</option>
+          </select>
+
+          <label for="combinedLayerSelect"> Display mode of upper combined layer (Buildings + Transports) : </label>
+          <select id="combinedLayerSelect" class="form-select">
+            <option value="combined_mapproxy_single">(MapProxy) Batiments + Transports image unique</option>
+            <option value="combined_mapproxy_tiles">(MapProxy) Batiments + Transports with tiling</option>
+          </select>
+          <h4 class="text-secondary">WFS labels Options </h4>
+          <!--
+          <input id="refresh-polygons" class="form-control" type="button" value="Refresh" />
+          
+          <label for="polygons-outline" title="Outline Color">O. Color: </label>
+          <input type="text" class="form-control" value="#ffffff" placeholder="#ffffff" id="polygons-outline" />
+          <label>
+            <input type="checkbox"  id="hideAllLayersCheckbox"> hide all Layers
+          </label>
+          -->
+          <label>
+            <input type="checkbox"  id="wfsLayerCheckbox"> WFS layers
+          </label>
+          
+          
 
         </form>
 
