@@ -17,6 +17,8 @@ This map display "Cité Descartes" with the following layers :
 
 translate to EPSG:3857 because EPSG:2154 is not supported by MapProxy
 
+tool to transform coordinates : https://epsg.io/transform#s_srs=4326&t_srs=3857
+
 ## ... enclosed with some features
 
 - An overwiew at the top right of the map (https://openlayers.org/en/latest/examples/overviewmap.html)

@@ -18,11 +18,13 @@ let map = new ol.Map({
   controls: ol.control.defaults().extend([mousePositionControl, overviewMapControl]),
   interactions: ol.interaction.defaults().extend([new ol.interaction.DragRotateAndZoom()]),
   view: new ol.View({
-    center: ol.proj.fromLonLat([2.58701415, 48.83945474]),
+    //center: ol.proj.fromLonLat([2.58701415, 48.83945474]),
+    center: ol.proj.fromLonLat([253537.05, 909903.62]),
     minZoom: 16,
     maxZoom: 28,
     zoom: 2,
-    extent: ol.proj.transformExtent([-19.7168, 34.8448, 30.8477, 60.3544], 'EPSG:4326', 'EPSG:3857')
+    //extent: ol.proj.transformExtent([-19.7168, 34.8448, 30.8477, 60.3544], 'EPSG:4326', 'EPSG:3857')
+    extent: ol.proj.transformExtent([253531.1305,909838.9306,253531.1305,909838.9306], 'EPSG:4326', 'EPSG:2154')
   })
 });
 
