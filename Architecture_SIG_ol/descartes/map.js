@@ -23,8 +23,8 @@ let map = new ol.Map({
     minZoom: 16,
     maxZoom: 28,
     zoom: 2,
-    //extent: ol.proj.transformExtent([-19.7168, 34.8448, 30.8477, 60.3544], 'EPSG:4326', 'EPSG:3857')
-    extent: ol.proj.transformExtent([253531.1305,909838.9306,253531.1305,909838.9306], 'EPSG:4326', 'EPSG:2154')
+    extent: ol.proj.transformExtent([-19.7168, 34.8448, 30.8477, 60.3544], 'EPSG:4326', 'EPSG:3857')
+    //extent: ol.proj.transformExtent([253531.1305,909838.9306,253531.1305,909838.9306], 'EPSG:4326', 'EPSG:2154')
   })
 });
 
